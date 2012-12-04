@@ -1,0 +1,40 @@
+# -*- python -*-
+
+import waflib.Logs as msg
+
+def pkg_deps(ctx):
+    return
+
+def configure(ctx):
+    return
+
+def build(ctx):
+    ctx(
+        features="cxx cxxshlib",
+        name="rootcomps",
+        source="src/rootcomps.cxx",
+        target="rootcomps",
+        includes=["inc"],
+        export_includes=["inc"],
+        use="ROOT",
+        )
+    def subst(s):
+        import waflib.Utils
+        return waflib.Utils.subst_vars(s, ctx.env)
+    ctx.env['INCLUDES_rootcomps'] = [subst('${INSTALL_AREA}/include')]
+    ctx.env['LIBPATH_rootcomps'] = [subst('${INSTALL_AREA}/lib')]
+    ctx.env['LIB_rootcomps'] = ['rootcomps']
+    
+    incdir = ctx.path.find_node('inc')
+    includes = incdir.ant_glob('**/*', dir=False)
+    ctx.install_files(
+        '${INSTALL_AREA}/include', includes, 
+        relative_trick=True,
+        cwd=incdir,
+        )
+
+    msg.info("ROOT-home: %s" % ctx.env.ROOT_HOME)
+    return
+
+def install(ctx):
+    return

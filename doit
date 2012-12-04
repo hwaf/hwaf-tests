@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "::: running test..."
+
+hwaf=`pwd`/waf
+DESTDIR=`pwd`/install-area
+
+/bin/rm -rf install-area proj-b-*.tar.gz __build__
+
+echo "::::::::::::::::::::::"
+echo "::: building proj-a..."
+pushd proj-a || exit 1
+/bin/rm -rf install-area proj-a-*.tar.gz __build__
+
+$hwaf configure \
+    --prefix=/opt/sw/mana/proj-a \
+    --destdir=${DESTDIR} \
+    build install \
+    bdist \
+    || exit 1
+
+tar ztvf proj-a-x86_64-linux-gcc-opt-0.0.1.tar.gz || exit 1
+
+popd || exit 1
+
+echo ""
+echo "::::::::::::::::::::::"
+echo "::: building proj-b..."
+pushd proj-b || exit 1
+/bin/rm -rf install-area proj-b-*.tar.gz __build__
+
+$hwaf configure \
+    --prefix=/opt/sw/mana/proj-b \
+    --destdir=${DESTDIR} \
+    --projects=/opt/sw/mana/proj-a:/not/there \
+    build install \
+    bdist \
+    || exit 1
+
+tar ztvf proj-b-x86_64-linux-gcc-opt-0.0.1.tar.gz || exit 1
+
+popd || exit 1

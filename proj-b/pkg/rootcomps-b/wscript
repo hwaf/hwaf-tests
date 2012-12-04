@@ -1,0 +1,25 @@
+# -*- python -*-
+
+import waflib.Logs as msg
+
+def pkg_deps(ctx):
+    # FIXME: cross-project use_pkg does not work yet!
+    #ctx.use_pkg('rootcomps')
+    return
+
+def configure(ctx):
+    return
+
+def build(ctx):
+    ctx(
+        features="cxx cxxshlib",
+        name="proj-b-rootcomps",
+        source="src/th1d.cxx",
+        target="projb-rootcomps",
+        use="ROOT rootcomps",
+        )
+
+    return
+
+def install(ctx):
+    return

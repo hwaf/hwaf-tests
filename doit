@@ -4,6 +4,7 @@ echo "::: running test..."
 
 hwaf=`pwd`/waf
 DESTDIR=`pwd`/install-area
+OUTDIR=`pwd`/__build__
 
 /bin/rm -rf install-area proj-b-*.tar.gz __build__
 
@@ -15,6 +16,7 @@ pushd proj-a || exit 1
 $hwaf configure \
     --prefix=/opt/sw/mana/proj-a \
     --destdir=${DESTDIR} \
+    --out=${OUTDIR} \
     build install \
     bdist \
     || exit 1
@@ -32,6 +34,7 @@ pushd proj-b || exit 1
 $hwaf configure \
     --prefix=/opt/sw/mana/proj-b \
     --destdir=${DESTDIR} \
+    --out=${OUTDIR} \
     --projects=/opt/sw/mana/proj-a:/not/there \
     build install \
     bdist \

@@ -3,8 +3,7 @@
 import waflib.Logs as msg
 
 def pkg_deps(ctx):
-    # FIXME: cross-project use_pkg does not work yet!
-    #ctx.use_pkg('rootcomps')
+    ctx.use_pkg('rootcomps')
     return
 
 def configure(ctx):

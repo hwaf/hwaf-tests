@@ -1,0 +1,52 @@
+# -*- python -*-
+# @purpose the main entry point for driving the build and installation steps
+# @author Sebastien Binet <binet@cern.ch>
+
+# imports ---------------------------------------------------------------------
+import os
+
+# globals ---------------------------------------------------------------------
+top = '.'
+out = '__build__'
+PREFIX = 'install_area'
+VERSION = '0.0.1' # FIXME: should take it from somewhere else
+APPNAME = 'proj-c'
+
+# imports ---------------------------------------------------------------------
+
+# waf imports --
+import waflib.Logs
+import waflib.Utils
+import waflib.Options
+import waflib.Context
+import waflib.Logs as msg
+
+# functions -------------------------------------------------------------------
+
+def go(ctx):
+    from waflib.Options import commands, options
+    from os import getcwd
+    from os.path import join as pjoin
+    options.prefix = pjoin(getcwd(), "install")
+    commands += ["configure", "clean", "build", "install"]
+
+def options(ctx):
+    ctx.load('hwaf', tooldir='hep-waftools')
+    return
+
+def configure(ctx):
+    ctx.load('hwaf', tooldir='hep-waftools')
+
+    ctx.hepwaf_configure()
+    return
+
+def build(ctx):
+    ctx.load('hwaf', tooldir='hep-waftools')
+    msg.info("ROOT-home: %s" % ctx.env.ROOT_HOME)
+
+    ctx.hepwaf_build()
+    return
+
+def check(ctx):
+    return
+

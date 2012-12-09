@@ -81,7 +81,9 @@ popd || exit 1
 hwaf init usr-test || exit 1
 pushd usr-test || exit 1
 
-hwaf setup -project=../usr-install/opt/sw/mana/proj-c . || exit 1
+hwaf setup -projects=../usr-install/opt/sw/mana/proj-c . || exit 1
+hwaf co ../../hwaf-tests-proj-d control/rootcomps-d || exit 1
 ../waf configure || exit 1
 ../waf show-projects || exit 1
+../waf build install || exit 1
 popd usr-test || exit 1
